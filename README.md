@@ -1,7 +1,7 @@
 # sbs scrapy spider
 
 - This Script try to fetch all australia news from sbs.com.au and save the data to MongoDB Atlas(MongoDB Cloud).
-- By default, it will try to crawl 2000 news, however you can change the setting by modify variable COUNT_MAX = 0 in sbs_spider.py to get all.
+- By default, COUNT_MAX = 2000, it will try to fetch all news on each page and then go to next page until count reach 2000(including next page), if you want to get all, please modify variable COUNT_MAX = 0 in sbs_spider.py. 
 
 # Public API on Amazon EC2 instance
 

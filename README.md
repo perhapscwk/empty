@@ -1,7 +1,7 @@
 # sbs scrapy spider
 
 - This Script try to fetch all australia news from sbs.com.au and save the data to MongoDB Atlas(MongoDB Cloud).
-- By default, it will try to crawl all, however you can change the setting by modify variable COUNT_MAX in sbs_spider.py
+- By default, it will try to crawl 2000 news, however you can change the setting by modify variable COUNT_MAX = 0 in sbs_spider.py to get all.
 
 
 # Public API on Amazon EC2 instance
@@ -13,7 +13,8 @@
 
 API Usage: To fetch 10 news 
 
-- http://ec2-18-217-163-233.us-east-2.compute.amazonaws.com/sbs/news/10/
+- http://ec2-18-217-163-233.us-east-2.compute.amazonaws.com/sbs/news/10
+- to fetch 50 news, just change 10 to 50
 - to avoid api to fetch all when user have a typo by typing /abc/ instead of /10/, the api will still only fetch 10 records
 
 API Usage: To fetch 12 news with keyword 'australia' in news heading(title) or in news article text(articleText)

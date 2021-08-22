@@ -1,55 +1,41 @@
-# Scapy_RandomPaketSender
+# sbs scrapy spider
 
-This Script requires [Scapy](https://github.com/secdev/scapy) for sending randomly 1.000 ARP, TCP, Beacon Frame or ICMP pakets in the air.
+- This Script try to fetch all australia news from sbs.com.au and save the data to MongoDB Atlas(MongoDB Cloud).
+- By default, it will try to crawl all, however you can change the setting by modify variable COUNT_MAX in sbs_spider.py
 
-![alt text](https://github.com/Staubgeborener/Scapy_RandomPaketSender/blob/master/media/Screenshot_Terminal.png "Screenshot Terminal")
+
+# Public API on Amazon EC2 instance
+
+- You can access to the data in the mongo database via public API on Amazon EC2 instance
+- http://ec2-18-217-163-233.us-east-2.compute.amazonaws.com/sbs/
+- the server will reboot 3am (sydney time) everyday, so this api will have around 1 min downtime at that time
+- currently there are 37892 records on mongo database, as I force stopped the script after i completed this spider
+
+API Usage: To fetch 10 news 
+
+- http://ec2-18-217-163-233.us-east-2.compute.amazonaws.com/sbs/news/10/
+- to avoid api to fetch all when user have a typo by typing /abc/ instead of /10/, the api will still only fetch 10 records
+
+API Usage: To fetch 12 news with keyword 'australia' in news heading(title) or in news article text(articleText)
+
+- http://ec2-18-217-163-233.us-east-2.compute.amazonaws.com/sbs/news/12/australia
+- please note keyword is case insensitive
+
+## Installation
+`$ git clone https://github.com/perhapscwk/xxxx/`
+
+ Python Modules required
+ 
+```
+`$ pip install Scrapy`
+`$ pip install "pymongo[srv]"`
+```
 
 ## Execution
 
-Open up your shell and type	`python scapy_randompaketsender.py`
+Open up your shell and type	`scrapy crawl sbs`
 
-Notice that you have to set your wireless antenna into monitor mode. One way to do this is
+## Testing
 
-```
-sudo ifconfig wlan0 down
-sudo iwconfig wlan0 mode monitor
-```
+Open up your shell and type	`python -m tests.test_sbs_spider`
 
-or through airmon-ng
-
-`airmon-ng start wlan0`
-
-## Change settings
-You can change some addresses and of course the name of your interface, which you use for sending the pakets. In this case, the wireless antenna is listed as wlan0 respectively wlan0mon in monitor mode.
-```python
-#Settings
-Beacon_SSID = 'Fake_Beacon'   		#network name
-interface = 'wlan0mon'         		#interface
-broadcast = "ff:ff:ff:ff:ff:ff" 	#broadcast
-bssid = "aa:aa:aa:aa:aa:aa"		#bssid
-source = "111.111.111.111"		#source address
-destination = "222.222.222.222"		#destination address
-```
-
-The number of pakets can be customized in line 16.
-
-```python
-for i in range(0,1000):
-```
-
-The payload of the TCP pakets, both the length and the content, is also randomly generated with
-```python
-def random_data(size=randint(1, 1460), chars=string.ascii_uppercase + string.digits):
-			return ''.join(random.choice(chars) for _ in range(size))
-```
-
-(borrowed from the User [Ignacio Vazquez-Abrams at stackoverflow](https://stackoverflow.com/a/2257449/8334101))
-
-## Installation
-`$ git clone https://github.com/Staubgeborener/Scapy_RandomPaketSender/`
-
-
-## License
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-
-This project is licensed under GNU General Public License 3. Take a look at the [license file](https://github.com/Staubgeborener/Scapy_RandomPaketSender/blob/master/LICENSE) for more informations.
